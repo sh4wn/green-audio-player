@@ -23,6 +23,7 @@ class GreenAudioPlayer {
         this.draggableClasses = ['pin'];
         this.currentlyDragged = null;
         this.stopOthersOnPlay = opts.stopOthersOnPlay || false;
+        this.duration = opts.duration
 
         if (opts.showDownloadButton || false) {
             this.showDownload();
@@ -129,7 +130,7 @@ class GreenAudioPlayer {
         this.player.addEventListener('timeupdate', this.updateProgress.bind(self));
         this.player.addEventListener('volumechange', this.updateVolume.bind(self));
         this.player.addEventListener('loadedmetadata', () => {
-            this.totalTime.textContent = GreenAudioPlayer.formatTime(self.player.duration);
+            this.totalTime.textContent = GreenAudioPlayer.formatTime(self.duration || self.player.duration);
         });
 
         this.player.addEventListener('seeking', this.showLoadingIndicator.bind(self));
@@ -205,7 +206,7 @@ class GreenAudioPlayer {
 
     updateProgress() {
         const current = this.player.currentTime;
-        const percent = (current / this.player.duration) * 100;
+        const percent = (current / (self.duration || this.player.duration)) * 100;
         this.progress.style.width = `${percent}%`;
 
         this.currentTime.textContent = GreenAudioPlayer.formatTime(current);
@@ -261,7 +262,7 @@ class GreenAudioPlayer {
 
     rewind(event) {
         if (this.inRange(event)) {
-            this.player.currentTime = this.player.duration * this.getCoefficient(event);
+            this.player.currentTime = (self.duration || this.player.duration) * this.getCoefficient(event);
         }
     }
 

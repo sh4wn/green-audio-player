@@ -52,6 +52,7 @@ function () {
     this.draggableClasses = ['pin'];
     this.currentlyDragged = null;
     this.stopOthersOnPlay = opts.stopOthersOnPlay || false;
+    this.duration = opts.duration;
 
     if (opts.showDownloadButton || false) {
       this.showDownload();
@@ -100,7 +101,7 @@ function () {
       this.player.addEventListener('timeupdate', this.updateProgress.bind(self));
       this.player.addEventListener('volumechange', this.updateVolume.bind(self));
       this.player.addEventListener('loadedmetadata', function () {
-        _this.totalTime.textContent = GreenAudioPlayer.formatTime(self.player.duration);
+        _this.totalTime.textContent = GreenAudioPlayer.formatTime(self.duration || self.player.duration);
       });
       this.player.addEventListener('seeking', this.showLoadingIndicator.bind(self));
       this.player.addEventListener('seeked', this.hideLoadingIndicator.bind(self));
@@ -179,7 +180,7 @@ function () {
     key: "updateProgress",
     value: function updateProgress() {
       var current = this.player.currentTime;
-      var percent = current / this.player.duration * 100;
+      var percent = current / (self.duration || this.player.duration) * 100;
       this.progress.style.width = "".concat(percent, "%");
       this.currentTime.textContent = GreenAudioPlayer.formatTime(current);
     }
@@ -244,7 +245,7 @@ function () {
     key: "rewind",
     value: function rewind(event) {
       if (this.inRange(event)) {
-        this.player.currentTime = this.player.duration * this.getCoefficient(event);
+        this.player.currentTime = (self.duration || this.player.duration) * this.getCoefficient(event);
       }
     }
   }, {
