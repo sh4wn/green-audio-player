@@ -180,7 +180,7 @@ function () {
     key: "updateProgress",
     value: function updateProgress() {
       var current = this.player.currentTime;
-      var percent = current / (self.duration || this.player.duration) * 100;
+      var percent = current / (this.duration || this.player.duration) * 100;
       this.progress.style.width = "".concat(percent, "%");
       this.currentTime.textContent = GreenAudioPlayer.formatTime(current);
     }
@@ -245,7 +245,7 @@ function () {
     key: "rewind",
     value: function rewind(event) {
       if (this.inRange(event)) {
-        this.player.currentTime = (self.duration || this.player.duration) * this.getCoefficient(event);
+        this.player.currentTime = (this.duration || this.player.duration) * this.getCoefficient(event);
       }
     }
   }, {

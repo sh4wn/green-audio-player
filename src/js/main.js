@@ -206,7 +206,7 @@ class GreenAudioPlayer {
 
     updateProgress() {
         const current = this.player.currentTime;
-        const percent = (current / (self.duration || this.player.duration)) * 100;
+        const percent = (current / (this.duration || this.player.duration)) * 100;
         this.progress.style.width = `${percent}%`;
 
         this.currentTime.textContent = GreenAudioPlayer.formatTime(current);
@@ -262,7 +262,7 @@ class GreenAudioPlayer {
 
     rewind(event) {
         if (this.inRange(event)) {
-            this.player.currentTime = (self.duration || this.player.duration) * this.getCoefficient(event);
+            this.player.currentTime = (this.duration || this.player.duration) * this.getCoefficient(event);
         }
     }
 
